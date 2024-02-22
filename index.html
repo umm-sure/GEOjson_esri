@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <!--
+     ArcGIS Maps SDK for JavaScript, https://js.arcgis.com
+     For more information about the layers-geojson sample,
+     read the original sample description at developers.arcgis.com.
+     https://developers.arcgis.com/javascript/latest/sample-code/layers-geojson/
+     -->
+<title>GeoJSONLayer | Sample | ArcGIS Maps SDK for JavaScript 4.28</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.28/"></script>
+
+  <script>
+    require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView"], (
+      Map,
+      GeoJSONLayer,
+      MapView
+    ) => {
+      // If GeoJSON files are not on the same domain as your website, a CORS enabled server
+      // or a proxy is required.
+      const url = "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/MegaCities2_0/FeatureServer";
+
+
+      const template = {
+        title: "{City} 2015 Population",
+        content: "{Pop_2015} million",
+      };
+
+      const renderer = {
+        type: "simple",
+        field: "Pop_2015",
+        symbol: {
+          type: "simple-marker",
+          color: "orange",
+          outline: {
+            color: "white"
+          }
+        },
+        visualVariables: [{
+          type: "size",
+          field: "Pop_2015",
+          stops: [{
+              value: 2.5,
+              size: "4px"
+            },
+            {
+              value: 8,
+              size: "40px"
+            }
+          ]
+        }]
+      };
+
+      const geojsonLayer = new GeoJSONLayer({
+        url: url,
+        copyright: "UF GIS4102C",
+        popupTemplate: template,
+        renderer: renderer
+      });
+
+      const map = new Map({
+        basemap: "streets",
+        layers: [geojsonLayer]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        center: [-168, 46],
+        zoom: 2,
+        map: map
+      });
+    });
+
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
