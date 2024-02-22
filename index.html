@@ -79,12 +79,16 @@
         layers: [geojsonLayer]
       });
 
+      map.add(GeoJSONLayer);
+
       const view = new MapView({
         container: "viewDiv",
         center: [-168, 46],
         zoom: 2,
         map: map
       });
+
+      
     });
 
   </script>
